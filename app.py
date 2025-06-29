@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 import requests
 import re
@@ -8,7 +9,7 @@ app = Flask(__name__)
 def terabox_handler():
     data = request.get_json()
     url = data.get("url")
-
+    
     if not url or "teraboxapp.com" not in url:
         return jsonify({"error": "Invalid TeraBox URL"}), 400
 
@@ -37,4 +38,5 @@ def terabox_handler():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
